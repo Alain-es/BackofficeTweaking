@@ -207,7 +207,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="App_Plugins\**\*.*" />
+    <Content Include="App_Code\Installer\Setup.ascx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages.config" />
+    <Content Include="Package\build.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -216,10 +221,33 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Package\package.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\EmbeddedAssembly\RouteConfig.cs" />
+    <Compile Include="App_Code\Events\UmbracoStartupEvent.cs" />
+    <Compile Include="App_Code\EmbeddedAssembly\EmbeddedResourceController.cs" />
+    <Compile Include="App_Code\Installer\Setup.ascx.cs">
+      <DependentUpon>Setup.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="App_Code\Installer\Setup.ascx.designer.cs">
+      <DependentUpon>Setup.ascx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Code\Extensions\" />
+    <Folder Include="App_Code\Helpers\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -246,6 +274,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>SET PackageName=BackofficeTweaking
+
+CALL "$(ProjectDir)Package\build.bat" "%25PackageName%25" "$(ProjectDir)" "$(SolutionDir)" "$(SolutionName)" "$(TargetDir)" "$(TargetPath)"
+
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+  <files>
+    <file>
+      <guid>BackofficeTweaking.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>BackofficeTweaking.dll</orgName>
+    </file>
+    <file>
+      <guid>package.manifest</guid>
+      <orgPath>/App_Plugins/BackofficeTweaking</orgPath>
+      <orgName>package.manifest</orgName>
+    </file>
+    <file>
+      <guid>Setup.ascx</guid>
+      <orgPath>/App_Plugins/BackofficeTweaking/Installer</orgPath>
+      <orgName>Setup.ascx</orgName>
+    </file>
+  </files>
+  <info>
+    <package>
+      <name>BackofficeTweaking</name>
+      <version>0.1.0</version>
+      <license url="http://opensource.org/licenses/MIT">MIT License</license>
+      <url>https://github.com/Alain-es/BackofficeTweaking</url>
+      <requirements>
+        <major>7</major>
+        <minor>1</minor>
+        <patch>4</patch>
+      </requirements>
+    </package>
+    <author>
+      <name>Alain</name>
+      <website>https://github.com/Alain-es/BackofficeTweaking</website>
+    </author>
+    <readme><![CDATA[BackofficeTweaking requires Umbraco v7.1.4 or above]]></readme>
+  </info>
+  <DocumentTypes />
+  <Templates />
+  <Stylesheets />
+  <Macros />
+  <DictionaryItems />
+  <Languages />
+  <DataTypes>
+  </DataTypes>
+  <control>/App_Plugins/BackofficeTweaking/Installer/Setup.ascx</control>
+</umbPackage>

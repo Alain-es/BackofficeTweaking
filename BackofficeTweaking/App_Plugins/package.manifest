@@ -1,0 +1,12 @@
+﻿{
+
+    javascript: [
+		'~/App_Plugins/BackofficeTweaking/backofficetweaking.resource.js',
+		'~/App_Plugins/BackofficeTweaking/backofficetweaking.controller.js',
+    ],
+
+    css: [
+		'~/App_Plugins/BackofficeTweaking/backofficetweaking.css'
+    ]
+
+}
