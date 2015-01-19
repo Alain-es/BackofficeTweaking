@@ -32,14 +32,14 @@ namespace BackofficeTweaking.Handlers
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            // Get rules for the current user
-            var user = UmbracoContext.Current.Application.Services.UserService.GetUserById(UmbracoContext.Current.Security.GetUserId());
-            IEnumerable<Rule> rules = ConfigFileHelper.getRulesForUser(user);
-
             switch (request.RequestUri.AbsolutePath.ToLower())
             {
                 case "/umbraco/backoffice/umbracoapi/content/getempty":
                 case "/umbraco/backoffice/umbracoapi/content/getbyid":
+                    // Get rules for the current user
+                    var user = UmbracoContext.Current.Application.Services.UserService.GetUserById(UmbracoContext.Current.Security.GetUserId());
+                    IEnumerable<Rule> rules = ConfigFileHelper.getRulesForUser(user);
+                    // Process rules
                     return ProcessRules(request, cancellationToken, rules);
                 default:
                     return base.SendAsync(request, cancellationToken);
@@ -66,30 +66,30 @@ namespace BackofficeTweaking.Handlers
                                 x.Enabled == true
                                 && x.Type == RuleType.HideProperties.ToString()
                                 && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.SplitCommaSeparated().Contains(content.ContentTypeAlias))
+                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().Contains(content.ContentTypeAlias))
                                 ))
                             {
-                                hideProperties.AddRangeUnique(property.Names.SplitCommaSeparated().ToList());
+                                hideProperties.AddRangeUnique(property.Names.ToDelimitedList().ToList());
                             }
 
                             foreach (var tab in rules.Where(x =>
                                 x.Enabled == true
                                 && x.Type == RuleType.HideTabs.ToString()
                                 && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.SplitCommaSeparated().Contains(content.ContentTypeAlias))
+                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().Contains(content.ContentTypeAlias))
                                 ))
                             {
-                                hideTabs.AddRangeUnique(tab.Names.SplitCommaSeparated().ToList());
+                                hideTabs.AddRangeUnique(tab.Names.ToDelimitedList().ToList());
                             }
 
                             foreach (var button in rules.Where(x =>
                                 x.Enabled == true
                                 && x.Type == RuleType.HideButtons.ToString()
                                 && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.SplitCommaSeparated().Contains(content.ContentTypeAlias))
+                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().Contains(content.ContentTypeAlias))
                                 ))
                             {
-                                hideButtons.AddRangeUnique(button.Names.SplitCommaSeparated().ToList());
+                                hideButtons.AddRangeUnique(button.Names.ToDelimitedList().ToList());
                             }
 
                             var tabs = content.Tabs.Where(x => hideTabs.Contains(x.Alias));

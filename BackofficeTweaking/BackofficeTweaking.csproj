@@ -231,7 +231,6 @@
     <Compile Include="App_Code\Events\UmbracoStartupEvent.cs" />
     <Compile Include="App_Code\EmbeddedAssembly\EmbeddedResourceController.cs" />
     <Compile Include="App_Code\Extensions\IListExtensions.cs" />
-    <Compile Include="App_Code\Extensions\StringExtensions.cs" />
     <Compile Include="App_Code\Helpers\ConfigFileHelper.cs" />
     <Compile Include="App_Code\Installer\Setup.ascx.cs">
       <DependentUpon>Setup.ascx</DependentUpon>

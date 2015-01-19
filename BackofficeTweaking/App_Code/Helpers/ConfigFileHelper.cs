@@ -10,6 +10,7 @@ using System.Web.Caching;
 
 using Umbraco.Web;
 using Umbraco.Web.Models;
+using Umbraco.Core;
 using Umbraco.Core.Models.Membership;
 using Umbraco.Core.Logging;
 
@@ -64,9 +65,9 @@ namespace BackofficeTweaking.Helpers
             // Filter rules to apply for the current user
             result = result.Where(x =>
                 (string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserTypes)) ||
-                (!string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserTypes) && x.Users.ToLower().SplitCommaSeparated().Contains(currentUsername)) ||
-                (string.IsNullOrWhiteSpace(x.UserTypes) && !string.IsNullOrWhiteSpace(x.UserTypes) && x.UserTypes.ToLower().SplitCommaSeparated().Contains(currentUsertype)) ||
-                (x.Users.ToLower().SplitCommaSeparated().Contains(currentUsername) || x.UserTypes.ToLower().SplitCommaSeparated().Contains(currentUsertype))
+                (!string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserTypes) && x.Users.ToLower().ToDelimitedList().Contains(currentUsername)) ||
+                (string.IsNullOrWhiteSpace(x.UserTypes) && !string.IsNullOrWhiteSpace(x.UserTypes) && x.UserTypes.ToLower().ToDelimitedList().Contains(currentUsertype)) ||
+                (x.Users.ToLower().ToDelimitedList().Contains(currentUsername) || x.UserTypes.ToLower().ToDelimitedList().Contains(currentUsertype))
             );
 
             return result;
