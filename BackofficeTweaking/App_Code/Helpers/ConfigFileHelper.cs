@@ -21,7 +21,8 @@ namespace BackofficeTweaking.Helpers
     public enum RuleType
     {
         HideTabs = 0,
-        HideProperties = 1
+        HideProperties = 1,
+        HideButtons = 2
     }
 
     public class ConfigFileHelper
@@ -45,11 +46,11 @@ namespace BackofficeTweaking.Helpers
             var currentUsername = user.Username.ToLower();
             var currentUsertype = user.UserType.Alias.ToLower(); ;
 
-            //// If the current user is admin then omit all rules
-            //if (currentUsertype.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //    return result;
-            //}
+            // If the current user is admin then omit all rules
+            if (currentUsertype.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return result;
+            }
 
             // Get rules from the cache
             result = HttpContext.Current.Cache.Get(_CacheIdRules) as IEnumerable<Rule>;
@@ -78,22 +79,40 @@ namespace BackofficeTweaking.Helpers
 
             try
             {
-                // Check whether the config file exists
-                if (!File.Exists(configFilePath))
-                {
-                    // Create a new config file with default values
-                    XmlDocument xmlDocument = new XmlDocument();
-                    xmlDocument.LoadXml(_ConfigDefaultValue);
-                    xmlDocument.PreserveWhitespace = false;
-                    xmlDocument.Save(configFilePath);
-                }
 
-                // Load config
-                XElement xelement = XElement.Load(configFilePath);
-
-                // Rules
-                if (HttpContext.Current.Cache.Get(_CacheIdRules) as List<Rule> == null)
+                // Get rules from cache
+                if (HttpContext.Current.Cache.Get(_CacheIdRules) as IEnumerable<Rule> == null)
                 {
+
+                    // Check whether the config file exists
+                    if (!File.Exists(configFilePath))
+                    {
+                        // Create a new config file with default values
+                        XmlDocument xmlDocument = new XmlDocument();
+                        xmlDocument.LoadXml(_ConfigDefaultValue);
+                        xmlDocument.PreserveWhitespace = false;
+                        xmlDocument.Save(configFilePath);
+                    }
+
+                    // Load config
+                    XElement xelement = XElement.Load(configFilePath);
+
+                    // Check whether the "Enabled" attribute is a valid boolean value. 
+                    bool requireSaving = false;
+                    foreach (XElement element in xelement.Descendants())
+                    {
+                        bool enabledAttribute;
+                        if (!bool.TryParse(element.Attribute("Enabled").Value, out enabledAttribute))
+                        {
+                            element.SetAttributeValue("Enabled", "false");
+                            requireSaving = true;
+                        }
+                    }
+                    if (requireSaving)
+                    {
+                        xelement.Save(configFilePath);
+                    }
+
                     var Rules = from rule in xelement.Elements("Rule")
                                 select new Rule()
                                 {

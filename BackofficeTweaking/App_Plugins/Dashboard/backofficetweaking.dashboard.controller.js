@@ -6,7 +6,16 @@
 
         $scope.columns = {
             "columns": [
-                { "title": "Rule type", "alias": "Type", "type": "dropdown", "props": { "options": [{ "text": "Hide Tabs", "value": "HideTabs" }, { "text": "Hide Properties", "value": "HideProperties" }] } },
+                {
+                    "title": "Rule type", "alias": "Type", "type": "dropdown", "props":
+                      {
+                          "options": [
+                            { "text": "Hide Tabs", "value": "HideTabs" },
+                            { "text": "Hide Properties", "value": "HideProperties" },
+                            { "text": "Hide Buttons", "value": "HideButtons" }
+                          ]
+                      }
+                },
                 { "title": "Enabled", "alias": "Enabled", "type": "checkbox", "props": {} },
                 { "title": "Names", "alias": "Names", "type": "textarea", "props": {} },
                 { "title": "Users", "alias": "Users", "type": "textarea", "props": {} },
@@ -30,7 +39,15 @@
             }
 
             angular.forEach($scope.columns.columns, function (value, key) {
+                // Default values
+                switch (value.alias) {
+                    case "Enabled":
+                        rowObject[value.alias] = "true";
+                        break;
+                    default:
                 rowObject[value.alias] = "";
+                        break;
+                }
                 $scope.propertiesOrder.push(value.alias);
                 var columnKey = key;
                 var editorProperyAlias = value.alias;

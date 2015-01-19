@@ -57,6 +57,7 @@ namespace BackofficeTweaking.Handlers
                         {
                             List<string> hideProperties = new List<string>();
                             List<string> hideTabs = new List<string>();
+                            List<string> hideButtons = new List<string>();
 
                             var data = response.Content;
                             var content = ((ObjectContent)(data)).Value as ContentItemDisplay;
@@ -68,7 +69,7 @@ namespace BackofficeTweaking.Handlers
                                 && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.SplitCommaSeparated().Contains(content.ContentTypeAlias))
                                 ))
                             {
-                                hideProperties.AddRange(property.Names.SplitCommaSeparated().ToList());
+                                hideProperties.AddRangeUnique(property.Names.SplitCommaSeparated().ToList());
                             }
 
                             foreach (var tab in rules.Where(x =>
@@ -78,7 +79,17 @@ namespace BackofficeTweaking.Handlers
                                 && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.SplitCommaSeparated().Contains(content.ContentTypeAlias))
                                 ))
                             {
-                                hideTabs.AddRange(tab.Names.SplitCommaSeparated().ToList());
+                                hideTabs.AddRangeUnique(tab.Names.SplitCommaSeparated().ToList());
+                            }
+
+                            foreach (var button in rules.Where(x =>
+                                x.Enabled == true
+                                && x.Type == RuleType.HideButtons.ToString()
+                                && !string.IsNullOrWhiteSpace(x.Names)
+                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.SplitCommaSeparated().Contains(content.ContentTypeAlias))
+                                ))
+                            {
+                                hideButtons.AddRangeUnique(button.Names.SplitCommaSeparated().ToList());
                             }
 
                             var tabs = content.Tabs.Where(x => hideTabs.Contains(x.Alias));
@@ -87,6 +98,11 @@ namespace BackofficeTweaking.Handlers
                             content.Properties.ForEach(x =>
                             {
                                 x.Config.Add("hidetabs", string.Join(",", tabs.Select(t => t.Label)));
+                            });
+
+                            content.Properties.ForEach(x =>
+                            {
+                                x.Config.Add("hidebuttons", string.Join(",", hideButtons.Select(t => t)));
                             });
 
                             properties.ForEach(x =>

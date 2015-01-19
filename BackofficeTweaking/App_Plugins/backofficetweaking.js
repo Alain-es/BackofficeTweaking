@@ -8,7 +8,10 @@
                 var scope = angular.element(event.target).scope();
 
                 if (scope && $(event.target).hasClass('umb-property')) {
-                    if (scope.property.config && scope.property.config.hidetabs) {
+
+                    // Tabs
+                    if (scope.property && scope.property.config && scope.property.config.hidetabs) {
+                        console.log(scope);
                         var tabLabels = scope.property.config.hidetabs.split(",");
 
                         for (var i = 0; i < tabLabels.length; i++) {
@@ -16,8 +19,17 @@
                         }
                     }
 
-                    if (scope.property.config && scope.property.config.hide) {
+                    // Properties
+                    if (scope.property && scope.property.config && scope.property.config.hide) {
                         $(event.target).hide();
+                    }
+
+                    // Buttons
+                    if (scope.property && scope.property.config && scope.property.config.hidebuttons) {
+                        var buttons = scope.property.config.hidebuttons.split(",");
+                        for (var i = 0; i < buttons.length; i++) {
+
+                        }
                     }
 
                     $(".controls", $(event.target)).addClass('show-controls');
