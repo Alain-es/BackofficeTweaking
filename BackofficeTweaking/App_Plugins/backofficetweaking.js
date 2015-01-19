@@ -28,7 +28,42 @@
                     if (scope.property && scope.property.config && scope.property.config.hidebuttons) {
                         var buttons = scope.property.config.hidebuttons.split(",");
                         for (var i = 0; i < buttons.length; i++) {
-
+                            switch (buttons[i]) {
+                                case 'preview':
+                                    // Hide preview buttons
+                                    var previewButtons = $(".umb-tab-buttons > div > a:has(localize[key='buttons_showPage'])");
+                                    previewButtons.each(function () {
+                                        $(this).css("display", "none");
+                                    });
+                                    break;
+                                case 'save':
+                                    // Hide save buttons
+                                    var saveButtons = $(".umb-tab-buttons > div > a:has(localize[key='buttons_saveAndPublish'])");
+                                    saveButtons.each(function () {
+                                        $(this).css("display", "none");
+                                    });
+                                    saveButtons = $(".umb-tab-buttons > div > a:has(localize[key='buttons_saveToPublish'])");
+                                    saveButtons.each(function () {
+                                        $(this).css("display", "none");
+                                    });
+                                    saveButtons = $(".umb-tab-buttons > div > a:has(localize[key='buttons_save'])");
+                                    saveButtons.each(function () {
+                                        $(this).css("display", "none");
+                                    });                                    
+                                    saveButtons = $(".umb-tab-buttons > div > a:has(localize[key='content_unPublish'])");
+                                    saveButtons.each(function () {
+                                        $(this).css("display", "none");
+                                    });                                    
+                                    saveButtons = $(".umb-tab-buttons > div > a:has(span[class='caret'])");
+                                    saveButtons.each(function () {
+                                        $(this).css("display", "none");
+                                    });
+                                    break;
+                                case 'previews':
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
 
