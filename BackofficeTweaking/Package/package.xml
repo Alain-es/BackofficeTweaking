@@ -22,7 +22,7 @@
       <name>BackofficeTweaking</name>
       <version>0.1.0</version>
       <license url="http://opensource.org/licenses/MIT">MIT License</license>
-      <url>https://github.com/Alain-es/BackofficeTweaking</url>
+      <url>http://our.umbraco.org/projects/backoffice-extensions/backofficetweaking</url>
       <requirements>
         <major>7</major>
         <minor>1</minor>
@@ -43,5 +43,17 @@
   <Languages />
   <DataTypes>
   </DataTypes>
+  <Actions>
+    <Action runat="install" alias="addDashboardSection" dashboardAlias="BackofficeTweaking">
+      <section>
+        <areas>
+          <area>developer</area>
+        </areas>
+        <tab caption="Backoffice Tweaking">
+          <control>/App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.html</control>
+        </tab>
+      </section>
+    </Action>
+  </Actions>
   <control>/App_Plugins/BackofficeTweaking/Installer/Setup.ascx</control>
 </umbPackage>

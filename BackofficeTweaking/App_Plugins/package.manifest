@@ -2,11 +2,13 @@
 
     javascript: [
 		'~/App_Plugins/BackofficeTweaking/backofficetweaking.resource.js',
-		'~/App_Plugins/BackofficeTweaking/backofficetweaking.controller.js',
+		'~/App_Plugins/BackofficeTweaking/backofficetweaking.js',
+		'~/App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.controller.js'
     ],
 
     css: [
-		'~/App_Plugins/BackofficeTweaking/backofficetweaking.css'
+		"~/App_Plugins/BackofficeTweaking/backofficetweaking.css",
+		'~/App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.css'
     ]
 
 }

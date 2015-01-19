@@ -14,6 +14,7 @@ using Umbraco.Core.Persistence;
 using Umbraco.Core.Logging;
 
 using BackofficeTweaking.EmbeddedAssembly;
+using BackofficeTweaking.Handlers;
 
 namespace BackofficeTweaking.Events
 {
@@ -27,6 +28,10 @@ namespace BackofficeTweaking.Events
 
             // Register routes for embedded files
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            // Process rules
+            System.Web.Http.GlobalConfiguration.Configuration.MessageHandlers.Add(new RulesHandler());
+
         }
     }
 }
