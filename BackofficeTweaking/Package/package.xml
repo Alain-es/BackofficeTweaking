@@ -20,9 +20,9 @@
   <info>
     <package>
       <name>BackofficeTweaking</name>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
       <license url="http://opensource.org/licenses/MIT">MIT License</license>
-      <url>http://our.umbraco.org/projects/backoffice-extensions/backofficetweaking</url>
+      <url>http://our.umbraco.org/projects/collaboration/backoffice-tweaking</url>
       <requirements>
         <major>7</major>
         <minor>1</minor>
