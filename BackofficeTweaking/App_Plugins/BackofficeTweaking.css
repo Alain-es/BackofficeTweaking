@@ -93,3 +93,7 @@ div.umb-tab-pane {
 .umb-tab-buttons > div > a {
     display: none;
 }
+
+.hidden-button {
+    display: none !important;
+}

@@ -1,5 +1,4 @@
-﻿'use strict';
-(function () {
+﻿(function () {
 
     //Main controller
     function BackofficeTweakingDashboardController($rootScope, $scope, $timeout, assetsService, BackofficeTweakingResource, notificationsService) {
@@ -67,6 +66,9 @@
                 if (response.data) {
                     var Rules = JSON.parse(JSON.parse(response.data)).Rules;
                     if (Rules) {
+                        if (Rules.Rule) {
+                            Rules.Rule = jQuery.makeArray(Rules.Rule);
+                        }
                         $scope.value = Rules.Rule;
                     }
                     // Check for deleted columns

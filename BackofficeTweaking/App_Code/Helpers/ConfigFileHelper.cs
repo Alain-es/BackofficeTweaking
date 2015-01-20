@@ -30,7 +30,6 @@ namespace BackofficeTweaking.Helpers
     {
         private const string _CacheIdRules = "BackofficeTweaking.CacheId.CachedRules";
         private const string _ConfigFile = "~/Config/BackofficeTweaking.config";
-        private const string _ConfigDefaultValue = @"<Rules></Rules>";
 
         public static IEnumerable<Rule> getRulesForUser(IUser user)
         {
@@ -89,10 +88,12 @@ namespace BackofficeTweaking.Helpers
                     if (!File.Exists(configFilePath))
                     {
                         // Create a new config file with default values
-                        XmlDocument xmlDocument = new XmlDocument();
-                        xmlDocument.LoadXml(_ConfigDefaultValue);
-                        xmlDocument.PreserveWhitespace = false;
-                        xmlDocument.Save(configFilePath);
+                        XDocument xDocument = new XDocument(
+                            new XElement("Rules",
+                                new XComment(@"<Rule Type=""HideProperties"" Enabled=""true"" Names=""property1Name"" Users="""" UserTypes="""" ContentTypes="""" Description=""Example"" />")
+                                )
+                            );
+                        xDocument.Save(configFilePath);
                     }
 
                     // Load config

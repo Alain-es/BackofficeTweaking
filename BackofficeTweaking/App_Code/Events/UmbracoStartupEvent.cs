@@ -29,6 +29,9 @@ namespace BackofficeTweaking.Events
             // Register routes for embedded files
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
+            // Load rules and create config file if it doesn't exist
+            Helpers.ConfigFileHelper.LoadAndCacheConfig();
+
             // Process rules
             System.Web.Http.GlobalConfiguration.Configuration.MessageHandlers.Add(new RulesHandler());
 
