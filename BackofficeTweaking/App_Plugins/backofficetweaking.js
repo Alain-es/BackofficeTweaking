@@ -27,11 +27,19 @@
                     if (scope.property && scope.property.config && scope.property.config.hidebuttons) {
                         var buttons = scope.property.config.hidebuttons.split(",");
                         for (var i = 0; i < buttons.length; i++) {
-                            switch (buttons[i]) {
+                            switch (buttons[i].toLowerCase()) {
                                 case 'preview':
                                     // Hide preview buttons
                                     var previewButtons = $(".umb-tab-buttons > div > a:has(localize[key='buttons_showPage'])");
                                     previewButtons.each(function () {
+                                        $(this).addClass("hidden-button")
+                                    });
+                                    break;
+                                case 'actions':
+                                    // Hide actions button
+                                    var actionsButton = $(".umb-panel-header div[class*='umb-btn-toolbar'] a:has(localize[key='general_actions'])");
+                                    console.log(actionsButton);
+                                    actionsButton.each(function () {
                                         $(this).addClass("hidden-button")
                                     });
                                     break;
