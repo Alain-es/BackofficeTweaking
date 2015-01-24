@@ -3,7 +3,7 @@
     var count = 1,
         event = function (event) {
             $(".nav-tabs > li").show();  // Display any tab in order to fix a bug regarding dashboard tabs
-            $(".umb-tab-buttons > div > a").css("display", "inline-block");
+            $(".umb-tab-buttons").show();
             if (event.animationName == 'nodeInserted') {
                 var scope = angular.element(event.target).scope();
 

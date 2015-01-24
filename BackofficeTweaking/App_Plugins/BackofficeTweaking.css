@@ -90,7 +90,7 @@ div.umb-tab-pane {
     display: block !important;
 }
 
-.umb-tab-buttons > div > a {
+.umb-tab-buttons {
     display: none;
 }
 
