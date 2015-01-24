@@ -32,6 +32,9 @@ namespace BackofficeTweaking.Handlers
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            Task<HttpResponseMessage> result = null;
+            try
+            {
             switch (request.RequestUri.AbsolutePath.ToLower())
             {
                 case "/umbraco/backoffice/umbracoapi/content/getempty":
@@ -40,10 +43,20 @@ namespace BackofficeTweaking.Handlers
                     var user = UmbracoContext.Current.Application.Services.UserService.GetUserById(UmbracoContext.Current.Security.GetUserId());
                     IEnumerable<Rule> rules = ConfigFileHelper.getRulesForUser(user);
                     // Process rules
-                    return ProcessRules(request, cancellationToken, rules);
+                        result = ProcessRules(request, cancellationToken, rules);
+                        break;
                 default:
-                    return base.SendAsync(request, cancellationToken);
+                        result = base.SendAsync(request, cancellationToken);
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                LogHelper.Error(typeof(RulesHandler), "Error handling the request.", ex);
+            }
+
+            return result;
+
         }
 
         private Task<HttpResponseMessage> ProcessRules(HttpRequestMessage request, CancellationToken cancellationToken, IEnumerable<Rule> rules)
