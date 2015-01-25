@@ -97,3 +97,7 @@ div.umb-tab-pane {
 .hidden-button {
     display: none !important;
 }
+
+.hidden-panel {
+    display: none !important;
+}

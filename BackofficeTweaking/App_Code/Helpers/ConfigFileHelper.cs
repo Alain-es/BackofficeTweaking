@@ -23,7 +23,8 @@ namespace BackofficeTweaking.Helpers
     {
         HideTabs = 0,
         HideProperties = 1,
-        HideButtons = 2
+        HideButtons = 2,
+        HidePanels = 3
     }
 
     public class ConfigFileHelper

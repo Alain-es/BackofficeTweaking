@@ -66,13 +66,35 @@
                                         $(this).addClass("hidden-button")
                                     });
                                     break;
-                                case 'previews':
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+
+                    // Panels
+                    if (scope.property && scope.property.config && scope.property.config.hidepanels) {
+                        var panels = scope.property.config.hidepanels.split(",");
+                        for (var i = 0; i < panels.length; i++) {
+                            switch (panels[i].toLowerCase()) {
+                                case 'breadcrumb':
+                                    // Hide the bread crumbs panel (at the bottom)
+                                    var breadcrumbPanels = $("ul[class*='umb-panel-footer-nav']");
+                                    breadcrumbPanels.each(function () {
+                                        $(this).addClass("hidden-panel")
+                                    });
+                                    var bodyPanel = $(".umb-panel:has(div[class*='umb-panel-body'])");
+                                    bodyPanel.each(function () {
+                                        $(this).removeClass("editor-breadcrumb")
+                                    });
+
                                     break;
                                 default:
                                     break;
                             }
                         }
                     }
+
 
                     $(".controls", $(event.target)).addClass('show-controls');
                     $(".nav-tabs").addClass("show-tabs");
