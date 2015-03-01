@@ -208,7 +208,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_Plugins\**\*.*" />
+    <Content Include="App_Plugins\**\*.*" />
     <Content Include="App_Code\Installer\Setup.ascx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

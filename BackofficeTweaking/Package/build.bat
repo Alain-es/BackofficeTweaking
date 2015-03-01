@@ -23,7 +23,7 @@ REM @XCOPY "%ProjectDir%App_Plugins\Installer\Installer.ascx" "%ProjectDir%..\in
 @XCOPY "%TargetDir%App_Code\Installer\Setup.ascx" "%ProjectDir%..\installer\%PackageName%\App_Plugins\Installer\" /y /i /q /s
 
 REM -- App_Plugins
-REM @XCOPY "%ProjectDir%App_Plugins\*.*" "%ProjectDir%..\installer\%PackageName%\App_Plugins\" /y /i /q /s
+@XCOPY "%ProjectDir%App_Plugins\*.*" "%ProjectDir%..\installer\%PackageName%\App_Plugins\" /y /i /q /s
 @XCOPY "%ProjectDir%App_Plugins\package.manifest" "%ProjectDir%..\installer\%PackageName%\" /y /i /q /s
 
 REM -- Create package's zip file
@@ -37,6 +37,6 @@ REM -- Check whether the directory is not the current solution
 IF "%UmbracoSolution%\"=="%ProjectDir%" GOTO NOUMBRACOSOLUTION
 	@XCOPY "%TargetPath%" "%UmbracoSolution%\bin\" /y /i /q
 	@XCOPY "%ProjectDir%App_Plugins\package.manifest" "%UmbracoSolution%\App_Plugins\%PackageName%\" /y /i /q /s
-	REM @XCOPY "%ProjectDir%App_Plugins\*.*" "%UmbracoSolution%\App_Plugins\%PackageName%\" /y /i /q /s
+	@XCOPY "%ProjectDir%App_Plugins\*.*" "%UmbracoSolution%\App_Plugins\%PackageName%\" /y /i /q /s
 :NOUMBRACOSOLUTION
 
