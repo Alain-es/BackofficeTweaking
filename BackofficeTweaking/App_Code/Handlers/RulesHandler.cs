@@ -116,20 +116,23 @@ namespace BackofficeTweaking.Handlers
                                 hidePanels.AddRangeUnique(panel.Names.ToDelimitedList().ToList());
                             }
 
+                            // Get the first property of the first visible tab
+                            var firstPropertyAlias = content.Tabs.Where(t => t.IsActive == true).FirstOrDefault().Properties.FirstOrDefault().Alias;
+
                             var tabs = content.Tabs.Where(x => hideTabs.Contains(x.Alias));
                             var properties = content.Properties.Where(x => hideProperties.Contains(x.Alias));
 
-                            content.Properties.ForEach(x =>
+                            content.Properties.Where(p => p.Alias == firstPropertyAlias).ForEach(x =>
                             {
                                 x.Config.Add("hidetabs", string.Join(",", tabs.Select(t => t.Label)));
                             });
 
-                            content.Properties.ForEach(x =>
+                            content.Properties.Where(p => p.Alias == firstPropertyAlias).ForEach(x =>
                             {
                                 x.Config.Add("hidebuttons", string.Join(",", hideButtons.Select(t => t)));
                             });
 
-                            content.Properties.ForEach(x =>
+                            content.Properties.Where(p => p.Alias == firstPropertyAlias).ForEach(x =>
                             {
                                 x.Config.Add("hidepanels", string.Join(",", hidePanels.Select(t => t)));
                             });

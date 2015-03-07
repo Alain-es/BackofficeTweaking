@@ -26,8 +26,8 @@ namespace BackofficeTweaking.Events
 
             //LogHelper.Info(typeof(UmbracoStartupEvent), string.Format("Startup event ..."));
 
-            // Register routes for embedded files
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            //// Register routes for embedded files
+            //RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             // Load rules and create config file if it doesn't exist
             Helpers.ConfigFileHelper.LoadAndCacheConfig();
