@@ -12,19 +12,26 @@ REM -- Clean
 @DEL "%ProjectDir%..\installer\*.*" /f /s /q
 @RMDIR "%ProjectDir%..\installer\" /s /q
 
+REM -- Installer
+@XCOPY "%ProjectDir%App_Plugins\Installer\Installer.ascx" "%ProjectDir%..\installer\%PackageName%\TEMP\Installer\" /y /i /q /s
+@XCOPY "%TargetDir%App_Code\Installer\Setup.ascx" "%ProjectDir%..\installer\%PackageName%\TEMP\Installer\" /y /i /q /s
+
+REM -- App_Plugins
+@XCOPY "%ProjectDir%App_Plugins\*.*" "%ProjectDir%..\installer\%PackageName%\TEMP\" /y /i /q /s
+REM @XCOPY "%ProjectDir%App_Plugins\package.manifest" "%ProjectDir%..\installer\%PackageName%\TEMP\" /y /i /q /s
+
+REM -- Create install zip file
+"C:\Program Files\7-Zip\7z.exe" a -tzip "%ProjectDir%..\installer\%PackageName%\Install.zip" "%ProjectDir%..\installer\%PackageName%\TEMP\*.*" -r
+
+REM -- Delete zipped files
+@DEL "%ProjectDir%..\installer\%PackageName%\TEMP\*.*" /f /s /q
+@RMDIR "%ProjectDir%..\installer\%PackageName%\TEMP\" /s /q
+
 REM -- Binaries
 @XCOPY "%TargetPath%" "%ProjectDir%..\installer\%PackageName%\" /y /i /q
 
 REM -- Package
 @XCOPY "%ProjectDir%Package\package.xml" "%ProjectDir%..\installer\%PackageName%\" /y /i /q
-
-REM -- Installer
-@XCOPY "%ProjectDir%App_Plugins\Installer\Installer.ascx" "%ProjectDir%..\installer\%PackageName%\App_Plugins\Installer\" /y /i /q /s
-@XCOPY "%TargetDir%App_Code\Installer\Setup.ascx" "%ProjectDir%..\installer\%PackageName%\App_Plugins\Installer\" /y /i /q /s
-
-REM -- App_Plugins
-@XCOPY "%ProjectDir%App_Plugins\*.*" "%ProjectDir%..\installer\%PackageName%\App_Plugins\" /y /i /q /s
-@XCOPY "%ProjectDir%App_Plugins\package.manifest" "%ProjectDir%..\installer\%PackageName%\" /y /i /q /s
 
 REM -- Create package's zip file
 "C:\Program Files\7-Zip\7z.exe" a -tzip "%ProjectDir%..\installer\%PackageName%.zip" "%ProjectDir%..\installer\%PackageName%\*.*" -r

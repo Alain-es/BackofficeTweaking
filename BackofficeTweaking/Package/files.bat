@@ -1,4 +1,5 @@
 @ECHO OFF
+SETLOCAL enabledelayedexpansion
 CLS
 
 SET outputRoot=/App_Plugins/BackofficeTweaking
@@ -10,8 +11,11 @@ SET outputRemoveRoot=%cd%
 
 
 REM -- Get all files 
+SET /A COUNT=1
 FOR /R %%f IN (*) DO (
 		CALL :processFile "%%f" "%%~nf" "%%~xf" >> "%outputFile%"
+		SET /A COUNT+=1
+		ECHO !COUNT!
 	)
 GOTO :EOF
 
@@ -33,11 +37,11 @@ GOTO :EOF
 	CALL :subString "%processFileResult%" 0 %relativePathLength%
 	SET processFileResult=%subStringResult%
 
-	REM -- Replace backslash with slash 
+	REM -- Replace backslashs with slashs
 	CALL :stringReplace "%processFileResult%" "\" "/"
 	SET processFileResult=%stringReplaceResult%
 
-	REM -- Remove trailing backslash
+	REM -- Remove trailing slash
 	IF %processFileResult:~-1%==/ SET processFileResult=%processFileResult:~0,-1%
 	REM SET processFileResult=%processFileResult:~0,-1%	
 	

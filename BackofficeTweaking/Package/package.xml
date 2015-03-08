@@ -12,74 +12,9 @@
       <orgName>Setup.ascx</orgName>
     </file>
     <file>
-      <guid>backofficetweaking.css</guid>
+      <guid>Install.zip</guid>
       <orgPath>/App_Plugins/BackofficeTweaking</orgPath>
-      <orgName>backofficetweaking.css</orgName>
-    </file>
-    <file>
-      <guid>backofficetweaking.js</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking</orgPath>
-      <orgName>backofficetweaking.js</orgName>
-    </file>
-    <file>
-      <guid>backofficetweaking.resource.js</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking</orgPath>
-      <orgName>backofficetweaking.resource.js</orgName>
-    </file>
-    <file>
-      <guid>package.manifest</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking</orgPath>
-      <orgName>package.manifest</orgName>
-    </file>
-    <file>
-      <guid>backofficetweaking.dashboard.controller.js</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard</orgPath>
-      <orgName>backofficetweaking.dashboard.controller.js</orgName>
-    </file>
-    <file>
-      <guid>backofficetweaking.dashboard.css</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard</orgPath>
-      <orgName>backofficetweaking.dashboard.css</orgName>
-    </file>
-    <file>
-      <guid>backofficetweaking.dashboard.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard</orgPath>
-      <orgName>backofficetweaking.dashboard.html</orgName>
-    </file>
-    <file>
-      <guid>checkbox.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard/propertiesViews</orgPath>
-      <orgName>checkbox.html</orgName>
-    </file>
-    <file>
-      <guid>dropdown.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard/propertiesViews</orgPath>
-      <orgName>dropdown.html</orgName>
-    </file>
-    <file>
-      <guid>numeric.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard/propertiesViews</orgPath>
-      <orgName>numeric.html</orgName>
-    </file>
-    <file>
-      <guid>readonly.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard/propertiesViews</orgPath>
-      <orgName>readonly.html</orgName>
-    </file>
-    <file>
-      <guid>textarea.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard/propertiesViews</orgPath>
-      <orgName>textarea.html</orgName>
-    </file>
-    <file>
-      <guid>textbox.html</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Dashboard/propertiesViews</orgPath>
-      <orgName>textbox.html</orgName>
-    </file>
-    <file>
-      <guid>Logo.png</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Installer</orgPath>
-      <orgName>Logo.png</orgName>
+      <orgName>Install.zip</orgName>
     </file>
   </files>
   <info>
@@ -109,6 +44,8 @@
   <DataTypes>
   </DataTypes>
   <Actions>
+    <Action runat="install" alias="uninstallFiles" uninstallFiles="~/App_Plugins/BackofficeTweaking/" />
+    <Action runat="install" alias="installFiles" installFiles="~/App_Plugins/BackofficeTweaking/Install.zip" />
     <Action runat="install" alias="addDashboardSection" dashboardAlias="BackofficeTweaking">
       <section>
         <areas>
