@@ -87,6 +87,7 @@ namespace BackofficeTweaking.Handlers
                             List<string> hideButtons = new List<string>();
                             List<string> hidePanels = new List<string>();
                             List<string> hideLabels = new List<string>();
+                            List<string> runScripts = new List<string>();
 
                             // Get properties to hide
                             foreach (var propertyRule in rules.Where(r =>
@@ -148,11 +149,24 @@ namespace BackofficeTweaking.Handlers
                                     );
                             }
 
+                            // Get scripts to run
+                            foreach (var scriptRule in rules.Where(r =>
+                                r.Type.InvariantEquals(RuleType.RunScripts.ToString())
+                                && !string.IsNullOrWhiteSpace(r.Names)
+                                ))
+                            {
+                                runScripts.AddRangeUnique(scriptRule.Names.ToDelimitedList().ToList());
+                            }
+
+
                             // Get the first property of the first visible tab in order to add to its config everything that should be run only once (hide tabs, hide buttons, hide panels)
                             var firstProperty = content.Tabs.FirstOrDefault(t => t.IsActive == true).Properties.FirstOrDefault();
 
                             // Tabs
-                            firstProperty.Config.Add("hidetabs", string.Join(",", hideTabs.Select(x => x)));
+                            if (hideTabs.Count() > 0)
+                            {
+                                firstProperty.Config.Add("hidetabs", string.Join(",", hideTabs.Select(x => x)));
+                            }
 
                             // Properties
                             content.Properties.Where(p => hideProperties.InvariantContains(p.Alias)).ForEach(p =>
@@ -161,10 +175,16 @@ namespace BackofficeTweaking.Handlers
                             });
 
                             // Buttons
-                            firstProperty.Config.Add("hidebuttons", string.Join(",", hideButtons.Select(x => x)));
+                            if (hideButtons.Count() > 0)
+                            {
+                                firstProperty.Config.Add("hidebuttons", string.Join(",", hideButtons.Select(x => x)));
+                            }
 
                             // Panels
-                            firstProperty.Config.Add("hidepanels", string.Join(",", hidePanels.Select(x => x)));
+                            if (hidePanels.Count() > 0)
+                            {
+                                firstProperty.Config.Add("hidepanels", string.Join(",", hidePanels.Select(x => x)));
+                            }
 
                             // Labels
                             content.Properties.Where(p => hideLabels.InvariantContains(p.Alias)).ForEach(p =>
@@ -172,6 +192,11 @@ namespace BackofficeTweaking.Handlers
                                 p.HideLabel = true;
                             });
 
+                            // Scripts
+                            if (runScripts.Count() > 0)
+                            {
+                                firstProperty.Config.Add("runscripts", string.Join(",", runScripts.Select(x => x)));
+                            }
 
                         }
                         catch (Exception ex)

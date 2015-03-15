@@ -13,7 +13,8 @@
                             { "text": "Hide Properties", "value": "HideProperties" },
                             { "text": "Hide Buttons", "value": "HideButtons" },
                             { "text": "Hide Panels", "value": "HidePanels" },
-                            { "text": "Hide Labels", "value": "HideLabels" }
+                            { "text": "Hide Labels", "value": "HideLabels" },
+                            { "text": "Run Scripts", "value": "RunScripts" }
                           ]
                       }
                 },

@@ -15,7 +15,6 @@
                         if (scope.property.config.hidetabs) {
                             var tabLabels = scope.property.config.hidetabs.split(",");
                             for (var i = 0; i < tabLabels.length; i++) {
-                                //console.log(tabLabels[i]);
                                 $(".nav-tabs > li > a:contains('" + tabLabels[i] + "')").addClass('hidden-tab');
                             }
                         }
@@ -40,7 +39,6 @@
                                     case 'actions':
                                         // Hide actions button
                                         var actionsButton = $(".umb-panel-header div[class*='umb-btn-toolbar'] a:has(localize[key='general_actions'])");
-                                        //console.log(actionsButton);
                                         actionsButton.each(function () {
                                             $(this).addClass("hidden-button")
                                         });
@@ -96,8 +94,44 @@
                                 }
                             }
                         }
-                    }
 
+                        // Scripts
+                        if (scope.property.config.runscripts) {
+
+                            $.ajax({
+                                url: "/umbraco/backoffice/BackofficeTweaking/BackofficeTweakingApi/getScripts",
+                                dataType: "html",
+                                type: "GET",
+                                cache: true,
+                                success: function (result, status, xhr) {
+                                    // Strip ")]}'," from the response (always at the beginning)
+                                    if (result.indexOf(")]}',\n") == 0) {
+                                        result = result.substring(6);
+                                    }
+                                    // Parse the result 
+                                    var scripts = $.parseJSON(result);
+                                    if (!Array.isArray(scripts)) {
+                                        scripts = $.parseJSON(scripts);
+                                    }
+                                    if (scripts) {
+                                        // Run the scripts
+                                        var scriptNames = scope.property.config.runscripts.split(",");
+                                        $.each(scriptNames, function (index, scriptName) {
+                                            $.each(scripts, function (index, script) {
+                                                script = script.Script;
+                                                if (script.Name && scriptName && scriptName.toLowerCase() == script.Name.toLowerCase()) {
+                                                    eval(script.Content);
+                                                }
+                                            });
+                                        });
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(error);
+                                }
+                            });
+                        }
+                    }
                 }
             }
         }

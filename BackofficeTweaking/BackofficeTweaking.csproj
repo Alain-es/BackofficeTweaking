@@ -249,6 +249,7 @@
     <Compile Include="App_Code\PackageActions\UninstallFiles.cs" />
     <Compile Include="Controllers\BackofficeTweakingApiController.cs" />
     <Compile Include="Models\Rule.cs" />
+    <Compile Include="Models\Script.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

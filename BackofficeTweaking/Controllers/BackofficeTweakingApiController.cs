@@ -78,14 +78,18 @@ namespace BackofficeTweaking.Controllers
                 return result;
             }
 
+            // Load
+            XDocument xDocument = ConfigFileHelper.LoadConfig();
+
             // Get the values 
             try
             {
+
                 // Deserialize Xml
-                var xDocument = XDocument.Parse(JsonConvert.DeserializeXmlNode(paramValues, "Rules").OuterXml);
+                var xElement = XDocument.Parse(JsonConvert.DeserializeXmlNode(paramValues, "Rules").OuterXml);
 
                 // Convert document elements into attributes
-                IEnumerable<XElement> rules = from element in xDocument.Descendants("Rule")
+                IEnumerable<XElement> rules = from element in xElement.Descendants("Rule")
                                               select element;
                 foreach (XElement rule in rules)
                 {
@@ -96,6 +100,8 @@ namespace BackofficeTweaking.Controllers
                     rule.RemoveNodes();
                 }
 
+                xDocument.Element("Config").Element("Rules").ReplaceAll(rules);
+
                 // Save 
                 result = ConfigFileHelper.SaveConfig(xDocument);
             }
@@ -104,6 +110,40 @@ namespace BackofficeTweaking.Controllers
                 LogHelper.Error(typeof(BackofficeTweakingApiController), "Error deserializing rules.", ex);
                 result = string.Format("Error deserializing rules: {0}", ex.Message);
                 return result;
+            }
+
+            return result;
+        }
+
+
+        [System.Web.Http.HttpGet]
+        public string GetScripts()
+        {
+            string result = string.Empty;
+
+            // Load
+            XDocument xDocument = ConfigFileHelper.LoadConfig();
+
+            try
+            {
+                // Convert document attributes into elements
+                foreach (XElement xElement in xDocument.Descendants())
+                {
+                    foreach (var attribute in xElement.Attributes())
+                    {
+                        xElement.SetElementValue(attribute.Name, attribute.Value);
+                    }
+                    xElement.RemoveAttributes();
+                }
+
+                // Serialize
+                var scripts = xDocument.Element("Config").Element("Scripts").Elements("Script").AsEnumerable();
+                result = JsonConvert.SerializeObject(scripts);
+
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(typeof(BackofficeTweakingApiController), "Error serializing scripts.", ex);
             }
 
             return result;
