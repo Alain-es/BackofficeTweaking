@@ -20,6 +20,7 @@
                 { "title": "Names", "alias": "Names", "type": "textarea", "props": {} },
                 { "title": "Users", "alias": "Users", "type": "textarea", "props": {} },
                 { "title": "User Types", "alias": "UserTypes", "type": "textarea", "props": {} },
+                { "title": "Content Ids", "alias": "ContentIds", "type": "textarea", "props": {} },
                 { "title": "Content Types", "alias": "ContentTypes", "type": "textarea", "props": {} },
                 { "title": "Description", "alias": "Description", "type": "textarea", "props": {} }
             ]
@@ -45,7 +46,7 @@
                         rowObject[value.alias] = "true";
                         break;
                     default:
-                rowObject[value.alias] = "";
+                        rowObject[value.alias] = "";
                         break;
                 }
                 $scope.propertiesOrder.push(value.alias);

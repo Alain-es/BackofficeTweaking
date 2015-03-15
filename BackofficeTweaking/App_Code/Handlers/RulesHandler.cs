@@ -68,66 +68,69 @@ namespace BackofficeTweaking.Handlers
 
                         try
                         {
+                            //Check whether there are rules for the current content
+                            var data = response.Content;
+                            var content = ((ObjectContent)(data)).Value as ContentItemDisplay;
+                            rules = rules.Where(r =>
+                                r.Enabled == true
+                                && (string.IsNullOrWhiteSpace(r.ContentTypes) || r.ContentTypes.ToDelimitedList().InvariantContains(content.ContentTypeAlias))
+                                && (string.IsNullOrWhiteSpace(r.ContentIds) || r.ContentIds.ToDelimitedList().InvariantContains(content.Id.ToString()))
+                                );
+
+                            if (rules.Count() < 1)
+                            {
+                                return response;
+                            }
+
                             List<string> hideProperties = new List<string>();
                             List<string> hideTabs = new List<string>();
                             List<string> hideButtons = new List<string>();
                             List<string> hidePanels = new List<string>();
 
-                            var data = response.Content;
-                            var content = ((ObjectContent)(data)).Value as ContentItemDisplay;
-
                             // Get properties to hide
-                            foreach (var property in rules.Where(x =>
-                                x.Enabled == true
-                                && x.Type.InvariantEquals(RuleType.HideProperties.ToString())
-                                && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().InvariantContains(content.ContentTypeAlias))
+                            foreach (var propertyRule in rules.Where(r =>
+                                r.Type.InvariantEquals(RuleType.HideProperties.ToString())
+                                && !string.IsNullOrWhiteSpace(r.Names)
                                 ))
                             {
                                 // Remove all properties that don't exist for the current ContentType (A rule can be very generic and include properties that don't belong to the current ContentType)
                                 IEnumerable<string> currentContentTypeProperties = content.Properties.Select(p => p.Alias);
                                 hideProperties
-                                    .AddRangeUnique(property.Names.ToDelimitedList().ToList()
+                                    .AddRangeUnique(propertyRule.Names.ToDelimitedList().ToList()
                                         .Where(n => currentContentTypeProperties.InvariantContains(n))
                                     );
                             }
 
                             // Get tabs to hide
-                            foreach (var tab in rules.Where(x =>
-                                x.Enabled == true
-                                && x.Type.InvariantEquals(RuleType.HideTabs.ToString())
-                                && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().InvariantContains(content.ContentTypeAlias))
+                            foreach (var tabRule in rules.Where(r =>
+                                r.Type.InvariantEquals(RuleType.HideTabs.ToString())
+                                && !string.IsNullOrWhiteSpace(r.Names)
                                 ))
                             {
                                 // Remove all tabs that don't exist for the current ContentType (A rule can be very generic and include tabs that don't belong to the current ContentType)
                                 IEnumerable<string> currentContentTypeTabs = content.Tabs.Select(t => t.Label);
                                 hideTabs
-                                    .AddRangeUnique(tab.Names.ToDelimitedList().ToList()
+                                    .AddRangeUnique(tabRule.Names.ToDelimitedList().ToList()
                                         .Where(n => currentContentTypeTabs.InvariantContains(n))
                                     );
                             }
 
                             // Get buttons to hide
-                            foreach (var button in rules.Where(x =>
-                                x.Enabled == true
-                                && x.Type.InvariantEquals(RuleType.HideButtons.ToString())
-                                && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().InvariantContains(content.ContentTypeAlias))
+                            foreach (var buttonRule in rules.Where(r =>
+                                r.Type.InvariantEquals(RuleType.HideButtons.ToString())
+                                && !string.IsNullOrWhiteSpace(r.Names)
                                 ))
                             {
-                                hideButtons.AddRangeUnique(button.Names.ToDelimitedList().ToList());
+                                hideButtons.AddRangeUnique(buttonRule.Names.ToDelimitedList().ToList());
                             }
 
                             // Get panels
-                            foreach (var panel in rules.Where(x =>
-                                x.Enabled == true
-                                && x.Type.InvariantEquals(RuleType.HidePanels.ToString())
-                                && !string.IsNullOrWhiteSpace(x.Names)
-                                && (string.IsNullOrWhiteSpace(x.ContentTypes) || x.ContentTypes.ToDelimitedList().InvariantContains(content.ContentTypeAlias))
+                            foreach (var panelRule in rules.Where(r =>
+                                r.Type.InvariantEquals(RuleType.HidePanels.ToString())
+                                && !string.IsNullOrWhiteSpace(r.Names)
                                 ))
                             {
-                                hidePanels.AddRangeUnique(panel.Names.ToDelimitedList().ToList());
+                                hidePanels.AddRangeUnique(panelRule.Names.ToDelimitedList().ToList());
                             }
 
                             // Get the first property of the first visible tab in order to add to its config everything that should be run only once (hide tabs, hide buttons, hide panels)

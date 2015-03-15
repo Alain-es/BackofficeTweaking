@@ -91,7 +91,7 @@ namespace BackofficeTweaking.Helpers
                         // Create a new config file with default values
                         XDocument xDocument = new XDocument(
                             new XElement("Rules",
-                                new XComment(@"<Rule Type=""HideProperties"" Enabled=""true"" Names=""property1Name"" Users="""" UserTypes="""" ContentTypes="""" Description=""Example"" />")
+                                new XComment(@"<Rule Type=""HideProperties"" Enabled=""true"" Names=""property1Name"" Users="""" UserTypes="""" ContentIds="""" ContentTypes="""" Description=""Example"" />")
                                 )
                             );
                         xDocument.Save(configFilePath);
@@ -124,6 +124,7 @@ namespace BackofficeTweaking.Helpers
                                     Names = rule.Attribute("Names").Value,
                                     UserTypes = rule.Attribute("UserTypes").Value,
                                     Users = rule.Attribute("Users").Value,
+                                    ContentIds = rule.Attribute("ContentIds").Value,
                                     ContentTypes = rule.Attribute("ContentTypes").Value,
                                     Description = rule.Attribute("Description").Value
                                 };

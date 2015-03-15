@@ -12,6 +12,7 @@ namespace BackofficeTweaking.Models
         public string Names { get; set; }
         public string UserTypes { get; set; }
         public string Users { get; set; }
+        public string ContentIds { get; set; }
         public string ContentTypes { get; set; }
         public string Description { get; set; }
     }
