@@ -11,6 +11,7 @@ using System.Web.Caching;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 using Umbraco.Core;
+using Umbraco.Core.Strings;
 using Umbraco.Core.Models.Membership;
 using Umbraco.Core.Logging;
 
@@ -24,7 +25,8 @@ namespace BackofficeTweaking.Helpers
         HideTabs = 0,
         HideProperties = 1,
         HideButtons = 2,
-        HidePanels = 3
+        HidePanels = 3,
+        HideLabels = 4
     }
 
     public class ConfigFileHelper
@@ -124,7 +126,7 @@ namespace BackofficeTweaking.Helpers
                                     Names = rule.Attribute("Names").Value,
                                     UserTypes = rule.Attribute("UserTypes").Value,
                                     Users = rule.Attribute("Users").Value,
-                                    ContentIds = rule.Attribute("ContentIds").Value,
+                                    ContentIds = rule.Attributes().Any(a => a.Name.ToString().InvariantEquals("ContentIds")) ? rule.Attribute("ContentIds").Value : string.Empty,
                                     ContentTypes = rule.Attribute("ContentTypes").Value,
                                     Description = rule.Attribute("Description").Value
                                 };

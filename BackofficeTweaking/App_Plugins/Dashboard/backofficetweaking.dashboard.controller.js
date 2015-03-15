@@ -12,7 +12,8 @@
                             { "text": "Hide Tabs", "value": "HideTabs" },
                             { "text": "Hide Properties", "value": "HideProperties" },
                             { "text": "Hide Buttons", "value": "HideButtons" },
-                            { "text": "Hide Panels", "value": "HidePanels" }
+                            { "text": "Hide Panels", "value": "HidePanels" },
+                            { "text": "Hide Labels", "value": "HideLabels" }
                           ]
                       }
                 },

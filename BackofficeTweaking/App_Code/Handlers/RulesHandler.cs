@@ -86,6 +86,7 @@ namespace BackofficeTweaking.Handlers
                             List<string> hideTabs = new List<string>();
                             List<string> hideButtons = new List<string>();
                             List<string> hidePanels = new List<string>();
+                            List<string> hideLabels = new List<string>();
 
                             // Get properties to hide
                             foreach (var propertyRule in rules.Where(r =>
@@ -124,13 +125,27 @@ namespace BackofficeTweaking.Handlers
                                 hideButtons.AddRangeUnique(buttonRule.Names.ToDelimitedList().ToList());
                             }
 
-                            // Get panels
+                            // Get panels to hide
                             foreach (var panelRule in rules.Where(r =>
                                 r.Type.InvariantEquals(RuleType.HidePanels.ToString())
                                 && !string.IsNullOrWhiteSpace(r.Names)
                                 ))
                             {
                                 hidePanels.AddRangeUnique(panelRule.Names.ToDelimitedList().ToList());
+                            }
+
+                            // Get labels to hide
+                            foreach (var labelRule in rules.Where(r =>
+                                r.Type.InvariantEquals(RuleType.HideLabels.ToString())
+                                && !string.IsNullOrWhiteSpace(r.Names)
+                                ))
+                            {
+                                // Remove all labels that don't exist for the current ContentType (A rule can be very generic and include labels that don't belong to the current ContentType)
+                                IEnumerable<string> currentContentTypeProperties = content.Properties.Select(p => p.Alias);
+                                hideLabels
+                                    .AddRangeUnique(labelRule.Names.ToDelimitedList().ToList()
+                                        .Where(n => currentContentTypeProperties.InvariantContains(n))
+                                    );
                             }
 
                             // Get the first property of the first visible tab in order to add to its config everything that should be run only once (hide tabs, hide buttons, hide panels)
@@ -150,6 +165,13 @@ namespace BackofficeTweaking.Handlers
 
                             // Panels
                             firstProperty.Config.Add("hidepanels", string.Join(",", hidePanels.Select(x => x)));
+
+                            // Labels
+                            content.Properties.Where(p => hideLabels.InvariantContains(p.Alias)).ForEach(p =>
+                            {
+                                p.HideLabel = true;
+                            });
+
 
                         }
                         catch (Exception ex)

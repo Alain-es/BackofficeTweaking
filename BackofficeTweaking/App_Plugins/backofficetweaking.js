@@ -98,8 +98,6 @@
                         }
                     }
 
-                    //$(".controls", $(event.target)).addClass('show-controls');
-                    //$(".nav-tabs").addClass("show-tabs");
                 }
             }
         }
