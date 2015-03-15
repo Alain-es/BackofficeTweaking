@@ -7,11 +7,6 @@
       <orgName>BackofficeTweaking.dll</orgName>
     </file>
     <file>
-      <guid>Setup.ascx</guid>
-      <orgPath>/App_Plugins/BackofficeTweaking/Installer</orgPath>
-      <orgName>Setup.ascx</orgName>
-    </file>
-    <file>
       <guid>Install.zip</guid>
       <orgPath>/App_Plugins/BackofficeTweaking</orgPath>
       <orgName>Install.zip</orgName>
@@ -20,7 +15,7 @@
   <info>
     <package>
       <name>BackofficeTweaking</name>
-      <version>0.5.0</version>
+      <version>0.6.0</version>
       <license url="http://opensource.org/licenses/MIT">MIT License</license>
       <url>http://our.umbraco.org/projects/collaboration/backoffice-tweaking</url>
       <requirements>
