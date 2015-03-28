@@ -15,7 +15,7 @@
   <info>
     <package>
       <name>BackofficeTweaking</name>
-      <version>0.6.0</version>
+      <version>0.6.1</version>
       <license url="http://opensource.org/licenses/MIT">MIT License</license>
       <url>http://our.umbraco.org/projects/collaboration/backoffice-tweaking</url>
       <requirements>
