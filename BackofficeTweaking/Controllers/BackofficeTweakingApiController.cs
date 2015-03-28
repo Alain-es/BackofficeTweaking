@@ -8,6 +8,7 @@ using System.Dynamic;
 using System.ComponentModel;
 using System.Text;
 using System.IO;
+using System.Web.Caching;
 
 using System.Xml;
 using System.Xml.Linq;
@@ -35,12 +36,18 @@ namespace BackofficeTweaking.Controllers
     [IsBackOffice]
     public class BackofficeTweakingApiController : UmbracoAuthorizedJsonController
     {
+        private const string _CacheIdApiControllerRules = "BackofficeTweaking.CacheId.ApiControllerRules";
+        private const string _CacheIdApiControllerScripts = "BackofficeTweaking.CacheId.ApiControllerScripts";
+
         [System.Web.Http.HttpGet]
         public string GetRules()
         {
             string result = string.Empty;
-
-            // Load
+            var cachedResult = HttpContext.Current.Cache.Get(_CacheIdApiControllerRules);
+            if (cachedResult != null && !string.IsNullOrWhiteSpace(cachedResult.ToString()))
+            {
+                return cachedResult.ToString();
+            }
             XDocument xDocument = ConfigFileHelper.LoadConfig();
 
             try
@@ -56,7 +63,8 @@ namespace BackofficeTweaking.Controllers
                 }
                 // Serialize
                 result = JsonConvert.SerializeXNode(xDocument.XPathSelectElement("//Rules"));
-
+                // Cache the result for a year but with a dependency on the config file
+                HttpContext.Current.Cache.Add(_CacheIdApiControllerRules, result, new CacheDependency(ConfigFileHelper.getConfigFilePath()), DateTime.Now.AddYears(1), Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.NotRemovable, null);
             }
             catch (Exception ex)
             {
@@ -84,12 +92,12 @@ namespace BackofficeTweaking.Controllers
             // Get the values 
             try
             {
-
-                // Deserialize Xml
-                var xElement = XDocument.Parse(JsonConvert.DeserializeXmlNode(paramValues, "Rules").OuterXml);
+                // Save the rules
+                // Deserialize Xml Rules
+                var xElementRules = XDocument.Parse(JsonConvert.DeserializeXmlNode(paramValues, "Rules").OuterXml);
 
                 // Convert document elements into attributes
-                IEnumerable<XElement> rules = from element in xElement.Descendants("Rule")
+                IEnumerable<XElement> rules = from element in xElementRules.Descendants("Rule")
                                               select element;
                 foreach (XElement rule in rules)
                 {
@@ -99,8 +107,31 @@ namespace BackofficeTweaking.Controllers
                     }
                     rule.RemoveNodes();
                 }
-
                 xDocument.Element("Config").Element("Rules").ReplaceAll(rules);
+
+                //// Save the scripts 
+                //// Deserialize Xml Scripts
+                //var xElementScripts = XDocument.Parse(JsonConvert.DeserializeXmlNode(paramValues, "Scripts").OuterXml);
+                //// Convert document elements into attributes
+                //IEnumerable<XElement> scripts = from element in xElementScripts.Descendants("Script")
+                //                                select element;
+                //foreach (XElement script in scripts)
+                //{
+                //    foreach (XElement element in script.Descendants())
+                //    {
+                //        if (!element.Name.Equals("Content"))
+                //        {
+                //            script.SetAttributeValue(element.Name, element.Value);
+                //        }
+                //        else
+                //        {
+                //            // The "Content" vale is not saved as an attribute 
+                //            script.Value = element.Value;
+                //        }
+                //    }
+                //    script.RemoveNodes();
+                //}
+                //xDocument.Element("Config").Element("Scripts").ReplaceAll(scripts);
 
                 // Save 
                 result = ConfigFileHelper.SaveConfig(xDocument);
@@ -121,6 +152,11 @@ namespace BackofficeTweaking.Controllers
         {
             string result = string.Empty;
 
+            var cachedResult = HttpContext.Current.Cache.Get(_CacheIdApiControllerScripts);
+            if (cachedResult != null && !string.IsNullOrWhiteSpace(cachedResult.ToString()))
+            {
+                return cachedResult.ToString();
+            }
             // Load
             XDocument xDocument = ConfigFileHelper.LoadConfig();
 
@@ -139,7 +175,8 @@ namespace BackofficeTweaking.Controllers
                 // Serialize
                 var scripts = xDocument.Element("Config").Element("Scripts").Elements("Script").AsEnumerable();
                 result = JsonConvert.SerializeObject(scripts);
-
+                // Cache the result for a year but with a dependency on the config file
+                HttpContext.Current.Cache.Add(_CacheIdApiControllerScripts, result, new CacheDependency(ConfigFileHelper.getConfigFilePath()), DateTime.Now.AddYears(1), Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.NotRemovable, null);
             }
             catch (Exception ex)
             {

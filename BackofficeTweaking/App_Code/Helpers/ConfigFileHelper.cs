@@ -36,6 +36,11 @@ namespace BackofficeTweaking.Helpers
         private const string _CacheIdScripts = "BackofficeTweaking.CacheId.CachedScripts";
         private const string _ConfigFile = "~/Config/BackofficeTweaking.config";
 
+        public static string getConfigFilePath()
+        {
+            return System.Web.Hosting.HostingEnvironment.MapPath(_ConfigFile);
+        }
+
         public static IEnumerable<Rule> getRulesForUser(IUser user)
         {
 
@@ -97,7 +102,7 @@ namespace BackofficeTweaking.Helpers
 
         public static void LoadAndCacheConfig()
         {
-            string configFilePath = System.Web.Hosting.HostingEnvironment.MapPath(_ConfigFile);
+            string configFilePath = getConfigFilePath();
 
             try
             {
@@ -128,7 +133,7 @@ namespace BackofficeTweaking.Helpers
                                 new XElement("Scripts",
                                     new XElement("Script",
                                         new XAttribute("Name", "example"),
-                                        new XAttribute("Content", "console.log('Hello world');")
+                                        "console.log('Hello world');"
                                     )
                                 )
                             )
@@ -148,7 +153,7 @@ namespace BackofficeTweaking.Helpers
                                 new XElement("Scripts",
                                     new XElement("Script",
                                         new XAttribute("Name", "example"),
-                                        new XAttribute("Content", "console.log('Hello world');")
+                                        "console.log('Hello world');"
                                     )
                                 )
                             )
@@ -168,6 +173,18 @@ namespace BackofficeTweaking.Helpers
                             requireSaving = true;
                         }
                     }
+
+                    // Check whether the scripts have the new format
+                    foreach (XElement element in xelement.Element("Scripts").Descendants())
+                    {
+                        if (element.Attributes().Any(a => a.Name.LocalName.Equals("Content")))
+                        {
+                            element.SetValue(element.Attribute("Content").Value);
+                            element.Attribute("Content").Remove();
+                            requireSaving = true;
+                        }
+                    }
+
                     if (requireSaving)
                     {
                         xelement.Save(configFilePath);
@@ -188,11 +205,12 @@ namespace BackofficeTweaking.Helpers
                     // Cache the result for a year but with a dependency on the config file
                     HttpContext.Current.Cache.Add(_CacheIdRules, Rules, new CacheDependency(configFilePath), DateTime.Now.AddYears(1), Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.NotRemovable, null);
 
+                    // Load scripts
                     var Scripts = from script in xelement.Element("Scripts").Elements("Script")
                                   select new Script()
                                   {
                                       Name = script.Attribute("Name").Value,
-                                      Content = script.Attribute("Content").Value
+                                      Content = !string.IsNullOrWhiteSpace(script.Value) ? script.Value : script.Attribute("Content").Value
                                   };
                     // Cache the result for a year but with a dependency on the config file
                     HttpContext.Current.Cache.Add(_CacheIdScripts, Scripts, new CacheDependency(configFilePath), DateTime.Now.AddYears(1), Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.NotRemovable, null);
@@ -211,7 +229,7 @@ namespace BackofficeTweaking.Helpers
         public static XDocument LoadConfig()
         {
             var result = new XDocument();
-            string configFilePath = System.Web.Hosting.HostingEnvironment.MapPath(_ConfigFile);
+            string configFilePath = getConfigFilePath();
             LoadAndCacheConfig(); // Creates a new config file if it doesn't exist
             try
             {
@@ -228,7 +246,7 @@ namespace BackofficeTweaking.Helpers
         public static string SaveConfig(XDocument config)
         {
             string result = "Unexpected error.";
-            string configFilePath = System.Web.Hosting.HostingEnvironment.MapPath(_ConfigFile);
+            string configFilePath = getConfigFilePath();
             try
             {
                 config.Save(configFilePath);

@@ -120,7 +120,10 @@
                                             $.each(scripts, function (index, script) {
                                                 script = script.Script;
                                                 if (script.Name && scriptName && scriptName.toLowerCase() == script.Name.toLowerCase()) {
-                                                    eval(script.Content);
+                                                    var scriptContent = script['#text'];
+                                                    if (!scriptContent)
+                                                        scriptContent = script['#cdata-section'];
+                                                    eval(scriptContent);
                                                 }
                                             });
                                         });
