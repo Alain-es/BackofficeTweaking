@@ -41,16 +41,8 @@
   <Actions>
     <Action runat="install" alias="uninstallFiles" uninstallFiles="~/App_Plugins/BackofficeTweaking/" />
     <Action runat="install" alias="installFiles" installFiles="~/App_Plugins/BackofficeTweaking/Install.zip" />
-    <Action runat="install" alias="addDashboardSection" dashboardAlias="BackofficeTweaking">
-      <section>
-        <areas>
-          <area>developer</area>
-        </areas>
-        <tab caption="Backoffice Tweaking">
-          <control>/App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.html</control>
-        </tab>
-      </section>
-    </Action>
+    <Action runat="install" alias="uninstallSection" uninstallSection="BackofficeTweaking" />
+    <Action runat="install" alias="installDashboard" dashboardSection="StartupDeveloperDashboardSection" dashboardCaption="Backoffice Tweaking" dashboardControl="/App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.html" />
   </Actions>
   <control>/App_Plugins/BackofficeTweaking/Installer/Setup.ascx</control>
 </umbPackage>

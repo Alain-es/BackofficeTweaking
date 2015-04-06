@@ -233,6 +233,8 @@
     <Compile Include="App_Code\EmbeddedAssembly\EmbeddedResourceController.cs" />
     <Compile Include="App_Code\Extensions\IListExtensions.cs" />
     <Compile Include="App_Code\Helpers\ConfigFileHelper.cs" />
+    <Compile Include="App_Code\Helpers\ExceptionHelper.cs" />
+    <Compile Include="App_Code\Helpers\DashboardHelper.cs" />
     <Compile Include="App_Code\Helpers\XmlHelper.cs" />
     <Compile Include="App_Code\Installer\Setup.ascx.cs">
       <DependentUpon>Setup.ascx</DependentUpon>
@@ -244,9 +246,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="App_Code\Handlers\RulesHandler.cs" />
+    <Compile Include="App_Code\PackageActions\InstallDashboard.cs" />
     <Compile Include="App_Code\PackageActions\DeleteFile.cs" />
     <Compile Include="App_Code\PackageActions\InstallFiles.cs" />
+    <Compile Include="App_Code\PackageActions\UninstallDashboard.cs" />
     <Compile Include="App_Code\PackageActions\UninstallFiles.cs" />
+    <Compile Include="App_Code\PackageActions\UninstallSection.cs" />
     <Compile Include="Controllers\BackofficeTweakingApiController.cs" />
     <Compile Include="Models\Rule.cs" />
     <Compile Include="Models\Script.cs" />

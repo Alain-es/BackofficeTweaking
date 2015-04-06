@@ -85,6 +85,54 @@ namespace BackofficeTweaking.PackageActions
 
         public bool Undo(string packageName, XmlNode xmlData)
         {
+            string packageDirectory = Path.GetDirectoryName(HostingEnvironment.MapPath(GetInstallFiles(xmlData)));
+            string uninstallFilePath = Path.Combine(packageDirectory, UninstallFilename);
+            try
+            {
+                if (File.Exists(uninstallFilePath))
+                {
+                    // Remove all the files
+                    string[] uninstallFileContent = File.ReadAllLines(uninstallFilePath);
+                    foreach (var file in uninstallFileContent)
+                    {
+                        if (File.Exists(file))
+                        {
+                            File.Delete(file);
+                        }
+                    }
+                    // Remove the uninstall file
+                    File.Delete(uninstallFilePath);
+                    // Remove all empty directories
+                    foreach (var directory in Directory.GetDirectories(packageDirectory, "", SearchOption.AllDirectories))
+                    {
+                        if (Directory.Exists(directory) && Directory.GetFiles(directory, "", SearchOption.AllDirectories).Length == 0)
+                        {
+                            try
+                            {
+                            Directory.Delete(directory, true);
+                        }
+                            catch (Exception)
+                            {
+                            }
+                    }
+                    }
+                    if (Directory.Exists(packageDirectory) && Directory.GetFiles(packageDirectory, "", SearchOption.AllDirectories).Length == 0)
+                    {
+                        try
+                        {
+                        Directory.Delete(packageDirectory, true);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                LogHelper.Error<UninstallFiles>(string.Format("Error uninstalling the file: {0}", uninstallFilePath), ex);
+                return false;
+            }
             return true;
         }
 
