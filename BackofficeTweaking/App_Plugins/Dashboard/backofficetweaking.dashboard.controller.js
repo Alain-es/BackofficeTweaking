@@ -62,7 +62,7 @@
         resetProertiesEditors();
 
         // Load the css file with the grid's styles
-        assetsService.loadCss("/App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.css");
+        assetsService.loadCss("../App_Plugins/BackofficeTweaking/Dashboard/backofficetweaking.dashboard.css");
 
         // Load rules
         BackofficeTweakingResource.getRules().then(

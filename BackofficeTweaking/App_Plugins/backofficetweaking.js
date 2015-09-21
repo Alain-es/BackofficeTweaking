@@ -99,7 +99,7 @@
                         if (scope.property.config.runscripts) {
 
                             $.ajax({
-                                url: "/umbraco/backoffice/BackofficeTweaking/BackofficeTweakingApi/getScripts",
+                                url: "backoffice/BackofficeTweaking/BackofficeTweakingApi/getScripts",
                                 dataType: "html",
                                 type: "GET",
                                 cache: true,
@@ -108,7 +108,7 @@
                                     if (result.indexOf(")]}',\n") == 0) {
                                         result = result.substring(6);
                                     }
-                                    // Parse the result 
+                                    // Parse the result
                                     var scripts = $.parseJSON(result);
                                     if (!Array.isArray(scripts)) {
                                         scripts = $.parseJSON(scripts);

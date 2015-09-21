@@ -12,7 +12,7 @@
         <tbody ui-sortable="sortableOptions" ng-model="value">
             <tr ng-repeat="row in value">
                 <td ng-repeat="property in propertiesOrder">
-                    <ng-include src="'/app_plugins/BackofficeTweaking/Dashboard/propertiesViews/'+columns.columns[$index].type+'.html'"></ng-include>
+                    <ng-include src="'../app_plugins/BackofficeTweaking/Dashboard/propertiesViews/'+columns.columns[$index].type+'.html'"></ng-include>
                 </td>
                 <td class="actions">
                     <span class="btn btn-default icon icon-height sortHandle" style="font-size: 18px;"></span>
