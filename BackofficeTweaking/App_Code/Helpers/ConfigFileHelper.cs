@@ -126,6 +126,7 @@ namespace BackofficeTweaking.Helpers
                                         new XAttribute("Users", ""),
                                         new XAttribute("UserTypes", ""),
                                         new XAttribute("ContentIds", ""),
+                                        new XAttribute("ParentContentIds", ""),
                                         new XAttribute("ContentTypes", ""),
                                         new XAttribute("Description", "Example")
                                     )
