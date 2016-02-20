@@ -75,7 +75,7 @@ namespace BackofficeTweaking.Handlers
                                 r.Enabled == true
                                 && (string.IsNullOrWhiteSpace(r.ContentTypes) || r.ContentTypes.ToDelimitedList().InvariantContains(content.ContentTypeAlias))
                                 && (string.IsNullOrWhiteSpace(r.ContentIds) || r.ContentIds.ToDelimitedList().InvariantContains(content.Id.ToString()))
-                                );
+                                && (string.IsNullOrWhiteSpace(r.ParentContentIds) || r.ParentContentIds.ToDelimitedList().InvariantContains(content.ParentId.ToString())));
 
                             if (rules.Count() < 1)
                             {
