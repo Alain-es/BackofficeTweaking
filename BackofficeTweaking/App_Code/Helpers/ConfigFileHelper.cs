@@ -126,6 +126,7 @@ namespace BackofficeTweaking.Helpers
                                         new XAttribute("Users", ""),
                                         new XAttribute("UserTypes", ""),
                                         new XAttribute("ContentIds", ""),
+                                        new XAttribute("ParentContentIds", ""),
                                         new XAttribute("ContentTypes", ""),
                                         new XAttribute("Description", "Example")
                                     )
@@ -199,6 +200,7 @@ namespace BackofficeTweaking.Helpers
                                     UserTypes = rule.Attribute("UserTypes").Value,
                                     Users = rule.Attribute("Users").Value,
                                     ContentIds = rule.Attributes().Any(a => a.Name.ToString().InvariantEquals("ContentIds")) ? rule.Attribute("ContentIds").Value : string.Empty,
+                                    ParentContentIds = rule.Attributes().Any(a => a.Name.ToString().InvariantEquals("ParentContentIds")) ? rule.Attribute("ParentContentIds").Value : string.Empty,
                                     ContentTypes = rule.Attribute("ContentTypes").Value,
                                     Description = rule.Attribute("Description").Value
                                 };
