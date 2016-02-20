@@ -40,8 +40,8 @@ Cached/
 *.sln.docstates
 
 # Ignore project specific files and directories
-/installer/
-/packages/
-/BackofficeTweaking/bin/
-/BackofficeTweaking/obj/
-/BackofficeTweaking/Package/files.txt
+/source/installer/
+/source/packages/
+/source/BackofficeTweaking/bin/
+/source/BackofficeTweaking/obj/
+/source/BackofficeTweaking/Package/files.txt
