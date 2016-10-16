@@ -74,9 +74,9 @@ div.umb-tab-pane {
     -webkit-animation-name: nodeInserted;
 }
 
-.nav-tabs > li {
+/*.nav-tabs > li {
     display: none;
-}
+}*/
 
 .show-tabs > li {
     display: block !important;
@@ -90,9 +90,9 @@ div.umb-tab-pane {
     display: block !important;
 }
 
-.umb-tab-buttons {
-    display: none;
-}
+/*.umb-tab-buttons {
+    display: none !important;
+}*/
 
 .hidden-button {
     display: none !important;
@@ -101,3 +101,7 @@ div.umb-tab-pane {
 .hidden-panel {
     display: none !important;
 }
+
+/*.umb-editor-wrapper {
+    display: none !important;
+}*/
