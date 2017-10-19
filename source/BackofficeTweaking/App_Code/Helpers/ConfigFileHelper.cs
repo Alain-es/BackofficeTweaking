@@ -54,10 +54,10 @@ namespace BackofficeTweaking.Helpers
 
             // Current user name and user type
             var currentUsername = user.Username.ToLower();
-            var currentUsertype = user.UserType.Alias.ToLower();
+            var currentUserGroups = user.Groups;// user.UserType.Alias.ToLower();
 
             // If the current user is admin then omit all rules
-            if (currentUsertype.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
+            if (currentUserGroups.Any(x=>x.Alias.Equals("administrators", StringComparison.InvariantCultureIgnoreCase)))
             {
                 return result;
             }
@@ -73,10 +73,10 @@ namespace BackofficeTweaking.Helpers
 
             // Filter rules to apply for the current user
             result = result.Where(x =>
-                (string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserTypes)) ||
-                (!string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserTypes) && x.Users.ToLower().ToDelimitedList().Contains(currentUsername)) ||
-                (string.IsNullOrWhiteSpace(x.UserTypes) && !string.IsNullOrWhiteSpace(x.UserTypes) && x.UserTypes.ToLower().ToDelimitedList().Contains(currentUsertype)) ||
-                (x.Users.ToLower().ToDelimitedList().Contains(currentUsername) || x.UserTypes.ToLower().ToDelimitedList().Contains(currentUsertype))
+                (string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserGroups)) ||
+                (!string.IsNullOrWhiteSpace(x.Users) && string.IsNullOrWhiteSpace(x.UserGroups) && x.Users.ToLower().ToDelimitedList().Contains(currentUsername)) ||
+                (string.IsNullOrWhiteSpace(x.UserGroups) && !string.IsNullOrWhiteSpace(x.UserGroups) && x.UserGroups.ToLower().ToDelimitedList().Contains(currentUserGroups.FirstOrDefault().Alias)) ||
+                (x.Users.ToLower().ToDelimitedList().Contains(currentUsername) || x.UserGroups.ToLower().ToDelimitedList().Contains(currentUserGroups.FirstOrDefault().Alias))
             );
 
             return result;
@@ -197,7 +197,7 @@ namespace BackofficeTweaking.Helpers
                                     Type = rule.Attribute("Type").Value,
                                     Enabled = Convert.ToBoolean(rule.Attribute("Enabled").Value),
                                     Names = rule.Attribute("Names").Value,
-                                    UserTypes = rule.Attribute("UserTypes").Value,
+                                    UserGroups = rule.Attribute("UserTypes").Value,
                                     Users = rule.Attribute("Users").Value,
                                     ContentIds = rule.Attributes().Any(a => a.Name.ToString().InvariantEquals("ContentIds")) ? rule.Attribute("ContentIds").Value : string.Empty,
                                     ParentContentIds = rule.Attributes().Any(a => a.Name.ToString().InvariantEquals("ParentContentIds")) ? rule.Attribute("ParentContentIds").Value : string.Empty,
