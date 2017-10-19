@@ -21,7 +21,7 @@
                 { "title": "Enabled", "alias": "Enabled", "type": "checkbox", "props": {} },
                 { "title": "Names", "alias": "Names", "type": "textarea", "props": {} },
                 { "title": "Users", "alias": "Users", "type": "textarea", "props": {} },
-                { "title": "User Types", "alias": "UserTypes", "type": "textarea", "props": {} },
+                { "title": "User Groups", "alias": "UserTypes", "type": "textarea", "props": {} },
                 { "title": "Content Ids", "alias": "ContentIds", "type": "textarea", "props": {} },
                 { "title": "Parent content Ids", "alias": "ParentContentIds", "type": "textarea", "props": {} },
                 { "title": "Content Types", "alias": "ContentTypes", "type": "textarea", "props": {} },
